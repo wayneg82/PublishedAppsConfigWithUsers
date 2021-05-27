@@ -1,11 +1,13 @@
 #Author: Wayne Groenendaal
-#Date: 26/05/2021
-#Use: Inventory XenDesktop Site published application config and output to text file
+#Date: 27/05/2021
+#Use: Inventory XenDesktop Site published application config and output to csv file
 
 #Records current variable value
 $FormatEnumerationLimitOld=$FormatEnumerationLimit
+
 #Sets variable to unlimited
 $FormatEnumerationLimit=-1
+
 asnp citrix*
 $DeliveryGroups = Get-BrokerDesktopGroup
 $Applications = Get-BrokerApplication
