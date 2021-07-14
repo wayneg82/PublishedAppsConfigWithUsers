@@ -11,7 +11,7 @@ $FormatEnumerationLimit=-1
 #Sets the location
 set-location $PSScriptRoot
 
-#Lets set some static variables
+#Sets static variables
 $tempdir = "C:\Temp"
 
 #Loads Citrix Modules
