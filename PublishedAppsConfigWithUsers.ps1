@@ -8,6 +8,12 @@ $FormatEnumerationLimitOld=$FormatEnumerationLimit
 #Sets variable to unlimited
 $FormatEnumerationLimit=-1
 
+#Sets the location
+set-location $PSScriptRoot
+
+#Sets static variables
+$tempdir = "C:\Temp"
+
 #Loads Citrix Modules
 asnp citrix*
 $DeliveryGroups = Get-BrokerDesktopGroup
@@ -39,6 +45,19 @@ foreach ($App in $Applications) {
         }
     }
 }
+
+#Tests temp location, if doesn't exist, creates temp directory.
+$Temp = test-path $tempdir
+while("True" -notcontains $Temp)
+{
+    write-host
+    write-host "$tempdir directory doesn't exist." -ForegroundColor Red
+    write-host "Attempting to create Temp directory on C:\" -ForegroundColor Magenta
+    new-item $tempdir -itemtype directory > $null
+    $Temp = test-path $tempdir
+    write-host
+}
+
 $AppList | Select ApplicationName,Description,DeliveryGroupName,@{l="AssociatedUserNames";e={$_.AssociatedUserNames -join ","}},CommandLineExecutable,CommandLineArguments,WorkingDirectory,Enabled,PublishedName,ClientFolder,@{l="Tags";e={$_.Tags -join ","}},BrowserName,AdminFolderName | Export-Csv -NoTypeInformation C:\temp\$SiteName"_PublishedAppsConfigWithUsers"$(get-date -f dd-MM-yyyy-HH-mm).csv 
 
 #Sets the variable back to the original value
